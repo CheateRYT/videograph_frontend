@@ -67,7 +67,7 @@ export default function PriceList() {
                 href="https://www.instagram.com/alexandr.cherednichenko?igsh=eXlvMTR5Nm96Ympj&utm_source=qr"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-black hover:text-gray-700"
+                className="text-black hover:text-black"
               >
                 <FaInstagram size={28} />
               </a>
@@ -75,7 +75,7 @@ export default function PriceList() {
                 href="https://t.me/alexandr_ch"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-black hover:text-gray-700"
+                className="text-black hover:text-black"
               >
                 <FaTelegram size={28} />
               </a>
@@ -99,7 +99,7 @@ export default function PriceList() {
                     </h3>
                     <span className="text-lg font-bold">от 2000 руб/ч</span>
                   </div>
-                  <p className="text-gray-700">
+                  <p className="text-black">
                     Съемки, монтаж и саундизайн, генерация идей и помощь в
                     момент съемки.
                   </p>
@@ -113,7 +113,7 @@ export default function PriceList() {
                     </h3>
                     <span className="text-lg font-bold">3000 руб</span>
                   </div>
-                  <p className="text-gray-700">
+                  <p className="text-black">
                     Отдаю исходники + цветокоррекция (по желанию).
                   </p>
                 </div>
@@ -126,7 +126,7 @@ export default function PriceList() {
                     </h3>
                     <span className="text-lg font-bold">1000 руб/ч</span>
                   </div>
-                  <p className="text-gray-700">
+                  <p className="text-black">
                     Обсуждаем монтаж под вашу идею из имеющегося материала.
                   </p>
                 </div>
@@ -154,7 +154,7 @@ export default function PriceList() {
                       </h3>
                       <span className="text-lg font-bold">20000 руб</span>
                     </div>
-                    <p className="text-gray-700">Съемка два раза в месяц.</p>
+                    <p className="text-black">Съемка два раза в месяц.</p>
                   </div>
 
                   {/* Package 3 */}
@@ -165,7 +165,7 @@ export default function PriceList() {
                       </h3>
                       <span className="text-lg font-bold">30000 руб</span>
                     </div>
-                    <p className="text-gray-700">Съемка два раза в месяц.</p>
+                    <p className="text-black">Съемка два раза в месяц.</p>
                   </div>
                 </div>
               </div>
@@ -176,7 +176,7 @@ export default function PriceList() {
                   <h3 className="text-xl font-semibold">Ведение аккаунта</h3>
                   <span className="text-lg font-bold">40000 руб</span>
                 </div>
-                <p className="text-gray-700">
+                <p className="text-black">
                   Ведение вашего аккаунта в соцсетях под ключ в течении 2-х
                   недель: Концептуальные идеи, интервью, экспертный формат,
                   работа с блогерами от лица компании и т.д.
@@ -196,7 +196,7 @@ export default function PriceList() {
                 href="https://t.me/alexandr_ch"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-block bg-white text-gray-800 px-6 py-2 rounded-full font-medium hover:bg-gray-200 transition-colors"
+                className="inline-block bg-white text-black px-6 py-2 rounded-full font-medium hover:bg-gray-200 transition-colors"
               >
                 Связаться
               </a>

@@ -181,7 +181,7 @@ export default function Profile() {
                 href="https://www.instagram.com/alexandr.cherednichenko?igsh=eXlvMTR5Nm96Ympj&utm_source=qr"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-black hover:text-gray-700"
+                className="text-black hover:text-black"
               >
                 <FaInstagram size={28} />
               </a>
@@ -189,7 +189,7 @@ export default function Profile() {
                 href="https://t.me/alexandr_ch"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-black hover:text-gray-700"
+                className="text-black hover:text-black"
               >
                 <FaTelegram size={28} />
               </a>
@@ -221,7 +221,7 @@ export default function Profile() {
 
                 <form onSubmit={handleSubmit}>
                   <div className="mb-4">
-                    <label htmlFor="login" className="block text-gray-700 mb-2">
+                    <label htmlFor="login" className="block text-black mb-2">
                       Логин
                     </label>
                     <input
@@ -235,10 +235,7 @@ export default function Profile() {
                   </div>
 
                   <div className="mb-6">
-                    <label
-                      htmlFor="password"
-                      className="block text-gray-700 mb-2"
-                    >
+                    <label htmlFor="password" className="block text-black mb-2">
                       Пароль
                     </label>
                     <input
@@ -262,7 +259,7 @@ export default function Profile() {
                   </button>
                 </form>
 
-                <div className="mt-4 text-center text-gray-600">
+                <div className="mt-4 text-center text-black">
                   <p>
                     Доступ предоставляется только зарегистрированным
                     пользователям
@@ -284,7 +281,7 @@ function UserVideos({ user, onLogout }: { user: User; onLogout: () => void }) {
         <h2 className="text-2xl font-bold">Личный кабинет: {user.login}</h2>
         <button
           onClick={onLogout}
-          className="px-4 py-2 bg-gray-200 hover:bg-gray-300 text-gray-800 rounded-md transition-colors"
+          className="px-4 py-2 bg-gray-200 hover:bg-gray-300 text-black rounded-md transition-colors"
         >
           Выйти
         </button>
@@ -347,12 +344,12 @@ function VideoCard({ video }: { video: Video }) {
       </div>
       <div className="p-4">
         <div className="flex justify-between items-center">
-          <span className="text-gray-700">Видео #{video.id}</span>
+          <span className="text-black">Видео #{video.id}</span>
           <a
             href={downloadUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center text-gray-800 hover:text-gray-600 transition-colors"
+            className="flex items-center text-black hover:text-black transition-colors"
           >
             <FaDownload className="mr-1" /> Скачать
           </a>

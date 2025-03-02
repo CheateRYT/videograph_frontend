@@ -93,7 +93,7 @@ export default async function About() {
                 href="https://www.instagram.com/alexandr.cherednichenko?igsh=eXlvMTR5Nm96Ympj&utm_source=qr"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-black hover:text-gray-700"
+                className="text-black hover:text-black"
               >
                 <FaInstagram size={28} />
               </a>
@@ -101,7 +101,7 @@ export default async function About() {
                 href="https://t.me/alexandr_ch"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-black hover:text-gray-700"
+                className="text-black hover:text-black"
               >
                 <FaTelegram size={28} />
               </a>
