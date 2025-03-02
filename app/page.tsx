@@ -79,7 +79,7 @@ export default async function Home() {
                 </li>
                 <li>
                   <Link
-                    href="/sign-in"
+                    href="/profile"
                     className="text-black text-xl hover:border-b-2 border-black pb-1 inline-block"
                   >
                     Личный кабинет

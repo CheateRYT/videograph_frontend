@@ -41,7 +41,7 @@ export default async function Gallery() {
           {/* Left Section */}
           <div className="md:w-1/3">
             {/* Logo */}
-            <h1 className="text-3xl md:text-2xl lg:text-3xl font-bold tracking-widest mb-8 ">
+            <h1 className="text-3xl md:text-2xl text-black  lg:text-3xl font-bold tracking-widest mb-8 ">
               ALEX CHEREDNICHENKO
             </h1>
 
@@ -82,7 +82,7 @@ export default async function Gallery() {
                 </li>
                 <li>
                   <Link
-                    href="/sign-in"
+                    href="/profile"
                     className="text-black text-xl hover:border-b-2 border-black pb-1 inline-block"
                   >
                     Личный кабинет

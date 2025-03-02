@@ -9,7 +9,18 @@
   --background: #ffffff;
   --foreground: #171717;
 }
+.aspect-w-16 {
+  position: relative;
+  padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
+}
 
+.aspect-w-16 > * {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
 @media (prefers-color-scheme: dark) {
   :root {
     --background: #0a0a0a;
