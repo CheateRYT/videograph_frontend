@@ -1,4 +1,3 @@
-// app/page.tsx
 import Image from "next/image";
 import Link from "next/link";
 import { FaInstagram, FaTelegram } from "react-icons/fa";
@@ -12,7 +11,7 @@ interface Photo {
 
 async function getPhotos() {
   try {
-    const response = await fetch("http://localhost:8080/api/photo/page/main", {
+    const response = await fetch("http://localhost:8080/api/photo/page/about", {
       cache: "no-store",
     });
 
@@ -28,7 +27,7 @@ async function getPhotos() {
   }
 }
 
-export default async function Home() {
+export default async function About() {
   const photos = await getPhotos();
 
   return (
@@ -72,7 +71,7 @@ export default async function Home() {
                 <li>
                   <Link
                     href="/about"
-                    className="text-black text-xl hover:border-b-2 border-black pb-1 inline-block"
+                    className="text-black text-xl border-b-2 border-black pb-1 inline-block"
                   >
                     Обо мне
                   </Link>
@@ -112,6 +111,7 @@ export default async function Home() {
           {/* Right Section - Photo Grid */}
           <div className="md:w-2/3">
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              <h2 className="text-2xl font-semibold mb-6">Обо мне</h2>
               {photos.map((photo) => (
                 <div
                   key={photo.id}
