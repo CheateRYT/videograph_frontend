@@ -38,7 +38,7 @@ export default async function Home() {
           {/* Left Section */}
           <div className="md:w-1/3">
             {/* Logo */}
-            <h1 className="text-3xl md:text-2xl lg:text-3xl font-bold tracking-widest mb-8 ">
+            <h1 className="text-3xl text-black md:text-2xl lg:text-3xl font-bold tracking-widest mb-8 ">
               ALEX CHEREDNICHENKO
             </h1>
 
