@@ -5,6 +5,7 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { FaInstagram, FaTelegram, FaDownload } from "react-icons/fa";
 import Cookies from "js-cookie";
+import Navigation from "../Navigation";
 
 interface Video {
   id: number;
@@ -129,73 +130,8 @@ export default function Profile() {
               ALEX CHEREDNICHENKO
             </h1>
 
-            {/* Navigation */}
-            <nav className="mb-12">
-              <ul className="space-y-4">
-                <li>
-                  <Link
-                    href="/"
-                    className="text-black text-xl hover:border-b-2 border-black pb-1 inline-block"
-                  >
-                    Главная
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    href="/gallery"
-                    className="text-black text-xl hover:border-b-2 border-black pb-1 inline-block"
-                  >
-                    Галерея
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    href="/price-list"
-                    className="text-black text-xl hover:border-b-2 border-black pb-1 inline-block"
-                  >
-                    Прайс-лист
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    href="/about"
-                    className="text-black text-xl hover:border-b-2 border-black pb-1 inline-block"
-                  >
-                    Обо мне
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    href="/profile"
-                    className="text-black text-xl border-b-2 border-black pb-1 inline-block"
-                  >
-                    Личный кабинет
-                  </Link>
-                </li>
-              </ul>
-            </nav>
-
-            {/* Social Media */}
-            <div className="flex space-x-4">
-              <a
-                href="https://www.instagram.com/alexandr.cherednichenko?igsh=eXlvMTR5Nm96Ympj&utm_source=qr"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-black hover:text-black"
-              >
-                <FaInstagram size={28} />
-              </a>
-              <a
-                href="https://t.me/alexandr_ch"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-black hover:text-black"
-              >
-                <FaTelegram size={28} />
-              </a>
-            </div>
+            <Navigation />
           </div>
-
           {/* Right Section - Login Form or User Videos */}
           <div className="md:w-2/3">
             {loading ? (

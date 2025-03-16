@@ -682,7 +682,7 @@ export default function AdminPanel() {
                 <FaInstagram size={28} />
               </a>
               <a
-                href="https://t.me/alexandr_ch"
+                href="https://t.me/chered_ad"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-black hover:text-black"
