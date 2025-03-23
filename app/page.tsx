@@ -4,33 +4,30 @@ import Link from "next/link";
 import { FaInstagram, FaTelegram } from "react-icons/fa";
 import Navigation from "./Navigation";
 
-interface Photo {
-  id: number;
-  pageName: string;
-  path: string;
-  order: number;
-}
+// interface Photo {
+//   id: number;
+//   fileName: string
+// }
 
-async function getPhotos() {
-  try {
-    const response = await fetch("http://localhost:8080/api/photo/page/main", {
-      cache: "no-store",
-    });
+// async function getPhotos() {
+//   try {
+//   const response = await fetch("http://localhost:8080/api/photos")
 
-    if (!response.ok) {
-      throw new Error(`Failed to fetch photos: ${response.status}`);
-    }
+//     console.log(response)
+//     if (!response.ok) {
+//       throw new Error(`Failed to fetch photos: ${response.status}`);
+//     }
 
-    const allPhotos: Photo[] = await response.json();
-    return allPhotos.filter((photo) => photo.pageName === "main");
-  } catch (error) {
-    console.error("Failed to fetch photos:", error);
-    return [];
-  }
-}
+//     const allPhotos: Photo[] = await response.json();
+//     return allPhotos
+//   } catch (error) {
+//     console.error("Failed to fetch photos:", error);
+//     return [];
+//   }
+// }
 
 export default async function Home() {
-  const photos = await getPhotos();
+  //const photos = await getPhotos();
 
   return (
     <div className="min-h-screen bg-gradient-to-r from-white to-gray-200">
@@ -45,16 +42,16 @@ export default async function Home() {
             <Navigation />
           </div>
 
-          {/* Right Section - Photo Grid */}
+          {/* Right Section - Photo Grid
           <div className="md:w-2/3">
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-2 lg:grid-cols-3 gap-4">
               {photos.map((photo) => (
                 <div
                   key={photo.id}
-                  className="overflow-hidden rounded-lg shadow-md"
+                  className="overflow-hidden rounded-lg "
                 >
-                  <Image
-                    src={photo.path}
+                  <img
+                    src={`http://localhost:8080/${photo.fileName}`}
                     alt={`Photo ${photo.id}`}
                     width={300}
                     height={200}
@@ -63,7 +60,7 @@ export default async function Home() {
                 </div>
               ))}
             </div>
-          </div>
+          </div> */}
         </div>
       </div>
     </div>

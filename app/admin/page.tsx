@@ -27,14 +27,10 @@ interface User {
   login: string;
   password: string;
   videos: Video[];
+  avatar: string,
+  personalData: string
 }
-
-interface Photo {
-  id: number;
-  pageName: string;
-  path: string;
-  order?: number;
-}
+import PhotoManager from "../../photo/photo"
 
 export default function AdminPanel() {
   // Authentication state
@@ -46,7 +42,6 @@ export default function AdminPanel() {
 
   // Admin data state
   const [users, setUsers] = useState<User[]>([]);
-  const [photos, setPhotos] = useState<Photo[]>([]);
   const [selectedUser, setSelectedUser] = useState<User | null>(null);
   const [isVideoModalOpen, setIsVideoModalOpen] = useState(false);
   const [isUserModalOpen, setIsUserModalOpen] = useState(false);
@@ -57,6 +52,7 @@ export default function AdminPanel() {
 
   // Form state for adding/editing
   const [newUserLogin, setNewUserLogin] = useState("");
+    const [newPersonalData, setNewPersonalData] = useState("");
   const [newUserPassword, setNewUserPassword] = useState("");
   const [newVideoLink, setNewVideoLink] = useState("");
   const [editingVideoId, setEditingVideoId] = useState<number | null>(null);
@@ -91,8 +87,7 @@ export default function AdminPanel() {
           setUsers(userData);
           setIsAuthenticated(true);
 
-          // Also fetch photos if authenticated
-          fetchPhotos();
+     
         } else {
           // Token is invalid or expired
           Cookies.remove("admin_token");
@@ -106,23 +101,7 @@ export default function AdminPanel() {
     setLoading(false);
   };
 
-  const fetchPhotos = async () => {
-    try {
-      const token = Cookies.get("admin_token");
-      const response = await fetch("http://localhost:8080/api/photo", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-
-      if (response.ok) {
-        const photosData = await response.json();
-        setPhotos(photosData);
-      }
-    } catch (err) {
-      console.error("Error fetching photos:", err);
-    }
-  };
+ 
 
   const handleAdminLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -168,8 +147,8 @@ export default function AdminPanel() {
       setUsers(usersData);
       setIsAuthenticated(true);
 
-      // Also fetch photos
-      fetchPhotos();
+   
+    
     } catch (err) {
       setError(
         err instanceof Error ? err.message : "Произошла ошибка при входе"
@@ -183,13 +162,13 @@ export default function AdminPanel() {
     Cookies.remove("admin_token");
     setIsAuthenticated(false);
     setUsers([]);
-    setPhotos([]);
+ 
   };
 
   // User management functions
   const addUser = async () => {
     if (!newUserLogin || !newUserPassword) {
-      setError("Логин и пароль обязательны");
+      setError("Логин, пароль, персональные данные обязательны");
       return;
     }
 
@@ -206,6 +185,7 @@ export default function AdminPanel() {
           body: JSON.stringify({
             login: newUserLogin,
             password: newUserPassword,
+            personalData: newPersonalData
           }),
         }
       );
@@ -233,6 +213,7 @@ export default function AdminPanel() {
       // Reset form
       setNewUserLogin("");
       setNewUserPassword("");
+      setNewPersonalData('')
       setIsUserModalOpen(false);
     } catch (err) {
       setError(err instanceof Error ? err.message : "Произошла ошибка");
@@ -457,154 +438,8 @@ export default function AdminPanel() {
     setNewPhotoOrder(undefined);
     setSelectedPageFilter("all");
 
-    // Refresh photos
-    await fetchPhotos();
+
   };
-
-  const addPhoto = async () => {
-    if (!newPhotoPath || !newPhotoPageName) {
-      setError("Путь к фото и название страницы обязательны");
-      return;
-    }
-
-    setPhotoActionLoading(true);
-    setError("");
-
-    try {
-      const token = Cookies.get("admin_token");
-      const response = await fetch("http://localhost:8080/api/photo", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({
-          path: newPhotoPath,
-          pageName: newPhotoPageName,
-          order: newPhotoOrder || undefined,
-        }),
-      });
-
-      if (!response.ok) {
-        throw new Error("Ошибка при добавлении фото");
-      }
-
-      // Refresh photos
-      await fetchPhotos();
-
-      // Reset form
-      setNewPhotoPath("");
-      setNewPhotoPageName("");
-      setNewPhotoOrder(undefined);
-    } catch (err) {
-      setError(err instanceof Error ? err.message : "Произошла ошибка");
-    } finally {
-      setPhotoActionLoading(false);
-    }
-  };
-
-  const updatePhoto = async () => {
-    if (!editingPhotoId || !newPhotoPath || !newPhotoPageName) {
-      setError("Необходимо выбрать фото и заполнить все поля");
-      return;
-    }
-
-    setPhotoActionLoading(true);
-    setError("");
-
-    try {
-      const token = Cookies.get("admin_token");
-      const response = await fetch(
-        `http://localhost:8080/api/photo/${editingPhotoId}`,
-        {
-          method: "PATCH",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify({
-            path: newPhotoPath,
-            pageName: newPhotoPageName,
-            order: newPhotoOrder || undefined,
-          }),
-        }
-      );
-
-      if (!response.ok) {
-        throw new Error("Ошибка при обновлении фото");
-      }
-
-      // Refresh photos
-      await fetchPhotos();
-
-      // Reset form
-      setNewPhotoPath("");
-      setNewPhotoPageName("");
-      setNewPhotoOrder(undefined);
-      setEditingPhotoId(null);
-    } catch (err) {
-      setError(err instanceof Error ? err.message : "Произошла ошибка");
-    } finally {
-      setPhotoActionLoading(false);
-    }
-  };
-
-  const deletePhoto = async (photoId: number) => {
-    if (!confirm("Вы уверены, что хотите удалить это фото?")) {
-      return;
-    }
-
-    setPhotoActionLoading(true);
-    setError("");
-
-    try {
-      const token = Cookies.get("admin_token");
-      const response = await fetch(
-        `http://localhost:8080/api/photo/${photoId}`,
-        {
-          method: "DELETE",
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-
-      if (!response.ok) {
-        throw new Error("Ошибка при удалении фото");
-      }
-
-      // Refresh photos
-      await fetchPhotos();
-
-      // If we were editing this photo, reset the form
-      if (editingPhotoId === photoId) {
-        setNewPhotoPath("");
-        setNewPhotoPageName("");
-        setNewPhotoOrder(undefined);
-        setEditingPhotoId(null);
-      }
-    } catch (err) {
-      setError(err instanceof Error ? err.message : "Произошла ошибка");
-    } finally {
-      setPhotoActionLoading(false);
-    }
-  };
-
-  const startEditingPhoto = (photo: Photo) => {
-    setEditingPhotoId(photo.id);
-    setNewPhotoPath(photo.path);
-    setNewPhotoPageName(photo.pageName);
-    setNewPhotoOrder(photo.order);
-  };
-
-  // Get unique page names for filter
-  const pageNames = Array.from(new Set(photos.map((photo) => photo.pageName)));
-
-  // Filter photos based on selected page
-  const filteredPhotos =
-    selectedPageFilter === "all"
-      ? photos
-      : photos.filter((photo) => photo.pageName === selectedPageFilter);
 
   return (
     <div className="min-h-screen bg-gradient-to-r from-white to-gray-200">
@@ -625,15 +460,15 @@ export default function AdminPanel() {
                     href="/"
                     className="text-black text-xl hover:border-b-2 border-black pb-1 inline-block"
                   >
-                    Главная
+                    Обо мне
                   </Link>
                 </li>
                 <li>
                   <Link
-                    href="/gallery"
+                    href="/portfolio"
                     className="text-black text-xl hover:border-b-2 border-black pb-1 inline-block"
                   >
-                    Галерея
+                    Портфолио
                   </Link>
                 </li>
                 <li>
@@ -646,10 +481,10 @@ export default function AdminPanel() {
                 </li>
                 <li>
                   <Link
-                    href="/about"
+                    href="/reviews"
                     className="text-black text-xl hover:border-b-2 border-black pb-1 inline-block"
                   >
-                    Обо мне
+                   Отзывы
                   </Link>
                 </li>
                 <li>
@@ -755,11 +590,25 @@ export default function AdminPanel() {
                           </button>
                         </div>
                         <div className="mb-2">
+                          <img
+                            src={
+                              user.avatar ? user.avatar : "/default-avatar.jpg"
+                            }
+                            alt="Avatar"
+                            className="w-16 h-16 rounded-full object-cover mr-4"
+                          />
                           <p>
                             <strong>Логин:</strong> {user.login}
                           </p>
                           <p>
                             <strong>Пароль:</strong> {user.password}
+                          </p>
+                          <p>
+                            {user.personalData && (
+                              <strong>
+                                Личная информация: {user.personalData}
+                              </strong>
+                            )}
                           </p>
                         </div>
                         <div className="flex justify-between items-center mt-4">
@@ -1003,6 +852,22 @@ export default function AdminPanel() {
                   required
                 />
               </div>
+              <div className="mb-4">
+                <label
+                  htmlFor="newPersonalData"
+                  className="block text-black mb-2"
+                >
+                  Личная информация
+                </label>
+                <input
+                  type="text"
+                  id="newPersonalData"
+                  value={newPersonalData}
+                  onChange={(e) => setNewPersonalData(e.target.value)}
+                  className="w-full px-4 py-2 border border-gray-300 rounded-md"
+                  required
+                />
+              </div>
 
               <div className="flex justify-end space-x-3">
                 <button
@@ -1023,7 +888,6 @@ export default function AdminPanel() {
         </div>
       )}
 
-      {/* Photo Management Modal */}
       {isPhotoModalOpen && (
         <div className="fixed inset-0 text-black bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
           <div className="bg-white rounded-lg shadow-xl w-full max-w-5xl max-h-[90vh] overflow-y-auto">
@@ -1035,194 +899,7 @@ export default function AdminPanel() {
               >
                 <FaTimes size={24} />
               </button>
-            </div>
-
-            <div className="p-4">
-              {/* Add/Edit Photo Form */}
-              <div className="mb-6 p-4 text-black bg-gray-50 rounded-md">
-                <h4 className="font-semibold mb-3">
-                  {editingPhotoId ? "Редактировать фото" : "Добавить фото"}
-                </h4>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-                  <div>
-                    <label
-                      htmlFor="photoPath"
-                      className="block text-black mb-2"
-                    >
-                      Путь к фото
-                    </label>
-                    <input
-                      type="text"
-                      id="photoPath"
-                      value={newPhotoPath}
-                      onChange={(e) => setNewPhotoPath(e.target.value)}
-                      placeholder="/images/example.jpg"
-                      className="w-full px-4 py-2 border border-gray-300 rounded-md"
-                      disabled={photoActionLoading}
-                    />
-                  </div>
-                  <div>
-                    <label
-                      htmlFor="photoPage"
-                      className="block text-black mb-2"
-                    >
-                      Название страницы
-                    </label>
-                    <input
-                      type="text"
-                      id="photoPage"
-                      value={newPhotoPageName}
-                      onChange={(e) => setNewPhotoPageName(e.target.value)}
-                      placeholder="gallery, about, home"
-                      className="w-full px-4 py-2 border border-gray-300 rounded-md"
-                      disabled={photoActionLoading}
-                    />
-                  </div>
-                </div>
-                <div className="mb-4">
-                  <label htmlFor="photoOrder" className="block text-black mb-2">
-                    Порядок (необязательно)
-                  </label>
-                  <input
-                    type="number"
-                    id="photoOrder"
-                    value={newPhotoOrder || ""}
-                    onChange={(e) =>
-                      setNewPhotoOrder(
-                        e.target.value ? parseInt(e.target.value) : undefined
-                      )
-                    }
-                    placeholder="1, 2, 3..."
-                    className="w-full px-4 py-2 border border-gray-300 rounded-md"
-                    disabled={photoActionLoading}
-                  />
-                </div>
-                <div className="flex flex-col sm:flex-row gap-3 justify-end">
-                  <button
-                    onClick={editingPhotoId ? updatePhoto : addPhoto}
-                    className={`px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition-colors whitespace-nowrap ${
-                      photoActionLoading ? "opacity-70 cursor-not-allowed" : ""
-                    }`}
-                    disabled={photoActionLoading}
-                  >
-                    {photoActionLoading ? (
-                      <span className="flex items-center">
-                        <span className="animate-spin h-4 w-4 mr-2 border-t-2 border-b-2 border-white rounded-full"></span>
-                        {editingPhotoId ? "Обновление..." : "Добавление..."}
-                      </span>
-                    ) : editingPhotoId ? (
-                      "Обновить фото"
-                    ) : (
-                      "Добавить фото"
-                    )}
-                  </button>
-                  {editingPhotoId && !photoActionLoading && (
-                    <button
-                      onClick={() => {
-                        setEditingPhotoId(null);
-                        setNewPhotoPath("");
-                        setNewPhotoPageName("");
-                        setNewPhotoOrder(undefined);
-                      }}
-                      className="px-4 py-2 bg-gray-500 text-white rounded-md hover:bg-gray-600 transition-colors"
-                    >
-                      Отмена
-                    </button>
-                  )}
-                </div>
-              </div>
-
-              {/* Photo filters */}
-              <div className="mb-4">
-                <label
-                  htmlFor="pageFilter"
-                  className="block text-black mb-2 font-medium"
-                >
-                  Фильтр по странице:
-                </label>
-                <select
-                  id="pageFilter"
-                  value={selectedPageFilter}
-                  onChange={(e) => setSelectedPageFilter(e.target.value)}
-                  className="px-4 py-2 border border-gray-300 rounded-md bg-white"
-                >
-                  <option value="all">Все страницы</option>
-                  {pageNames.map((page) => (
-                    <option key={page} value={page}>
-                      {page}
-                    </option>
-                  ))}
-                </select>
-              </div>
-
-              {/* Photo List */}
-              {filteredPhotos.length > 0 ? (
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                  {filteredPhotos.map((photo) => (
-                    <div
-                      key={photo.id}
-                      className="bg-gray-50 rounded-md p-3 border border-gray-200"
-                    >
-                      <div className="flex justify-between items-start mb-2">
-                        <span className="font-semibold">ID: {photo.id}</span>
-                        <div className="flex space-x-2">
-                          <button
-                            onClick={() => startEditingPhoto(photo)}
-                            className="text-blue-500 hover:text-blue-700"
-                            title="Редактировать"
-                            disabled={photoActionLoading}
-                          >
-                            <FaEdit />
-                          </button>
-                          <button
-                            onClick={() => deletePhoto(photo.id)}
-                            className="text-red-500 hover:text-red-700"
-                            title="Удалить"
-                            disabled={photoActionLoading}
-                          >
-                            <FaTrash />
-                          </button>
-                        </div>
-                      </div>
-
-                      {/* Photo preview */}
-                      <div className="aspect-square relative mb-2 overflow-hidden bg-gray-100 rounded">
-                        <img
-                          src={photo.path}
-                          alt={`Photo ${photo.id}`}
-                          className="absolute inset-0 w-full h-full object-cover"
-                          onError={(e) => {
-                            // Show placeholder on error
-                            e.currentTarget.src = "/placeholder-image.jpg";
-                          }}
-                        />
-                      </div>
-
-                      <div className="text-sm text-black">
-                        <p>
-                          <strong>Страница:</strong> {photo.pageName}
-                        </p>
-                        {photo.order !== undefined && (
-                          <p>
-                            <strong>Порядок:</strong> {photo.order}
-                          </p>
-                        )}
-                        <p className="truncate mt-1" title={photo.path}>
-                          <strong>Путь:</strong> {photo.path}
-                        </p>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              ) : (
-                <p className="text-center text-black my-4">
-                  {photoActionLoading
-                    ? "Загрузка..."
-                    : selectedPageFilter === "all"
-                    ? "Нет фотографий"
-                    : `Нет фотографий для страницы "${selectedPageFilter}"`}
-                </p>
-              )}
+              <PhotoManager />
             </div>
           </div>
         </div>

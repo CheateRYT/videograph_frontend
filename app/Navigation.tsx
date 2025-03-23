@@ -36,15 +36,15 @@ export default function Navigation() {
                 href="/"
                 className="text-black text-xl hover:border-b-2 border-black pb-1 inline-block"
               >
-                Главная
+                Обо мне
               </Link>
             </li>
             <li>
               <Link
-                href="/gallery"
+                href="/portfolio"
                 className="text-black text-xl hover:border-b-2 border-black pb-1 inline-block"
               >
-                Галерея
+                Портфолио
               </Link>
             </li>
             <li>
@@ -57,10 +57,10 @@ export default function Navigation() {
             </li>
             <li>
               <Link
-                href="/about"
+                href="/reviews"
                 className="text-black text-xl hover:border-b-2 border-black pb-1 inline-block"
               >
-                Обо мне
+                Отзывы
               </Link>
             </li>
             <li>
@@ -82,15 +82,15 @@ export default function Navigation() {
               href="/"
               className="text-black text-xl hover:border-b-2 border-black pb-1 inline-block"
             >
-              Главная
+              Обо мне
             </Link>
           </li>
           <li>
             <Link
-              href="/gallery"
+              href="/portfolio"
               className="text-black text-xl hover:border-b-2 border-black pb-1 inline-block"
             >
-              Галерея
+              Портфолио
             </Link>
           </li>
           <li>
@@ -103,10 +103,10 @@ export default function Navigation() {
           </li>
           <li>
             <Link
-              href="/about"
+              href="/reviews"
               className="text-black text-xl hover:border-b-2 border-black pb-1 inline-block"
             >
-              Обо мне
+              Отзывы
             </Link>
           </li>
           <li>
